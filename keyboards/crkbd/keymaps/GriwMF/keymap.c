@@ -18,6 +18,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 
+enum combos {
+    RT_LPRN,
+    YU_RPRN,
+};
+
+const uint16_t PROGMEM rt_combo[] = {KC_R, KC_T, COMBO_END};
+const uint16_t PROGMEM yu_combo[] = {KC_Y, KC_U, COMBO_END};
+
+combo_t key_combos[] = {
+    [RT_LPRN] = COMBO(rt_combo, KC_LPRN),
+    [YU_RPRN] = COMBO(yu_combo, KC_RPRN)
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_split_3x6_3_ex2(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
@@ -92,6 +105,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   )
 };
+
+void suspend_power_down_user(void) {
+    // Turn off RGB or peripherals on sleep
+    //rgb_matrix_disable_noeeprom();
+}
+
+void suspend_wakeup_init_user(void) {
+    // Restore RGB on wake
+    //rgb_matrix_enable_noeeprom();
+}
 
 #ifdef OLED_ENABLE
 #include <stdio.h>
